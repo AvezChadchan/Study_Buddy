@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">725593178837</string>
+    <string name="google_api_key" translatable="false">AIzaSyDY7AYHC1IJu_GAshwKUoScsRopyOV4CvQ</string>
+    <string name="google_app_id" translatable="false">1:725593178837:android:7a9a629f0999a2e8d2585c</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDY7AYHC1IJu_GAshwKUoScsRopyOV4CvQ</string>
+    <string name="google_storage_bucket" translatable="false">studybuddy-56c4a.firebasestorage.app</string>
+    <string name="project_id" translatable="false">studybuddy-56c4a</string>
+</resources>
