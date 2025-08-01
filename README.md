@@ -1,20 +1,24 @@
-<<<<<<< HEAD
-# studybuddy
+# 📚 StudyBuddy – A College Study Group App
 
-A new Flutter project.
+StudyBuddy is a Flutter app built for students to easily create and join study groups within their college. The app uses Firebase for authentication and real-time data handling.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## ✨ Features
 
-A few resources to get you started if this is your first Flutter project:
+- 🔐 Firebase Authentication (Email/Password)
+- 👥 Join or Create Study Groups
+- 📝 Post study materials and messages (coming soon)
+- 🎯 Clean and minimal UI with smooth user experience
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-=======
-# StudyBuddy
->>>>>>> 32ea5b5903f77baace3bf196b87e84fcfb635162
+## 🛠️ Tech Stack
+
+- **Flutter** (Frontend)
+- **Firebase Authentication** (User Login/Signup)
+- **Cloud Firestore** (User/Group Data)
+- **Firebase Storage** (For document uploads – optional)
+- **Provider/SetState** (State management – simple setup)
+
+---
