@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:studybuddy/firebase_options.dart';
+import 'package:studybuddy/screens/home_screen.dart';
 import 'package:studybuddy/screens/login_screen.dart';
+import 'package:studybuddy/screens/registration_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +18,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: LoginScreen(),
+      // home: LoginScreen(),
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) =>LoginScreen(),
+        '/home': (context) => HomeScreen(),
+        '/register': (context) =>RegistrationScreen(),
+      },
     );
   }
 }
@@ -27,6 +35,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold();

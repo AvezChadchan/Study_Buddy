@@ -1,9 +1,27 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 
-class RegistrationScreen extends StatelessWidget {
+class RegistrationScreen extends StatefulWidget {
+  @override
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
+}
+
+class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  String? _errorMessage;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -28,7 +46,9 @@ class RegistrationScreen extends StatelessWidget {
             bottom: -15,
             right: -10,
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, '/login');
+              },
               child: Container(
                 height: 150,
                 width: 200,
@@ -100,7 +120,7 @@ class RegistrationScreen extends StatelessWidget {
                   label: 'Password',
                   isPass: true,
                 ),
-                SizedBox(height: 100),
+                SizedBox(height: 30),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -114,6 +134,32 @@ class RegistrationScreen extends StatelessWidget {
                     ),
                     SizedBox(width: 10),
                     GestureDetector(
+                      onTap: () async {
+                        if (_nameController.text.isNotEmpty &&
+                            _emailController.text.isNotEmpty &&
+                            _passwordController.text.isNotEmpty) {
+                          try {
+                            await Provider.of<AuthProvider>(
+                              context,
+                              listen: false,
+                            ).signUp(
+                              _emailController.text.trim(),
+                              _passwordController.text.trim(),
+                              _nameController.text.trim(),
+                            );
+                            Navigator.pushNamed(context, '/login');
+                          } catch (e) {
+                            setState(() {
+                              _errorMessage = 'Invalid email or password';
+                            });
+                          }
+                        } else {
+                          setState(() {
+                            _errorMessage =
+                                'Please enter email and password and UserName';
+                          });
+                        }
+                      },
                       child: CircleAvatar(
                         radius: 25,
                         backgroundColor: Colors.black,
@@ -126,6 +172,14 @@ class RegistrationScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                if (_errorMessage != null)
+                  Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Text(
+                      _errorMessage!,
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
               ],
             ),
           ),
