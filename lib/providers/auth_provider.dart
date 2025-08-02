@@ -34,16 +34,17 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> signIn(String email, String password,String displayName) async {
+  Future<void> signIn(String email, String password) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
       User? firebaseUser = userCredential.user;
-      if(firebaseUser!=null){
-        DocumentSnapshot doc = await _firestore.collection('users').doc(firebaseUser.uid).get();
-        _user = UserModel.fromMap(doc.data() as Map<String,dynamic>);
+      if (firebaseUser != null) {
+        DocumentSnapshot doc =
+            await _firestore.collection('users').doc(firebaseUser.uid).get();
+        _user = UserModel.fromMap(doc.data() as Map<String, dynamic>);
         notifyListeners();
       }
     } catch (e) {
@@ -51,19 +52,19 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> Signout() async {
+  Future<void> signOut() async {
     await _auth.signOut();
-    _user =null;
+    _user = null;
     notifyListeners();
   }
 
-  Future<void> checkAuthState()async{
+  Future<void> checkAuthState() async {
     User? firebaseUser = _auth.currentUser;
-    if(firebaseUser!=null){
-      DocumentSnapshot doc = await _firestore.collection('users').doc(firebaseUser.uid).get();
-      _user = UserModel.fromMap(doc.data as Map<String,dynamic>);
+    if (firebaseUser != null) {
+      DocumentSnapshot doc =
+          await _firestore.collection('users').doc(firebaseUser.uid).get();
+      _user = UserModel.fromMap(doc.data as Map<String, dynamic>);
       notifyListeners();
     }
   }
-
 }

@@ -48,11 +48,18 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: _username,
-            ),
-            TextField(
-              controller: _password,
+            TextField(controller: _username),
+            TextField(controller: _password),
+            ElevatedButton(
+              onPressed: login,
+              child: Text(
+                'Login',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
             ),
           ],
         ),
