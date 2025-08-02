@@ -8,17 +8,14 @@ class RegistrationScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Top curved background
           Positioned(
             top: -100,
             left: 0,
             right: 0,
             child: Container(
               height: 400,
-              // width: 400,
               decoration: BoxDecoration(
                 color: Colors.lightBlueAccent,
-                // shape: BoxShape.circle,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(180),
                   bottomRight: Radius.circular(180),
@@ -27,7 +24,6 @@ class RegistrationScreen extends StatelessWidget {
             ),
           ),
 
-          // Bottom curve with Sign In link
           Positioned(
             bottom: -15,
             right: -10,
