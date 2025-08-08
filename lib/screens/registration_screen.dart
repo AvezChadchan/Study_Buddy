@@ -1,17 +1,18 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 
 class RegistrationScreen extends StatefulWidget {
+  const RegistrationScreen({super.key});
+
   @override
   State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   String? _errorMessage;
 
   @override
@@ -22,6 +23,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -41,7 +43,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
             ),
           ),
-
           Positioned(
             bottom: -15,
             right: -10,
@@ -89,12 +90,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     color: Colors.white,
                   ),
                 ),
-                // Container(
-                // child: Image.network(
-                // 'https://undraw.co/api/illustrations/e41e1adf-0c6e-4fdc-b62a-b46d36b39c32', // Use your own illustration
-                // height: 120,
-                // ),
-                // ) //add image here
               ],
             ),
           ),
@@ -135,28 +130,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     SizedBox(width: 10),
                     GestureDetector(
                       onTap: () async {
-                        if (_nameController.text.isNotEmpty &&
-                            _emailController.text.isNotEmpty &&
-                            _passwordController.text.isNotEmpty) {
+                        final name = _nameController.text.trim();
+                        final email = _emailController.text.trim();
+                        final password = _passwordController.text.trim();
+
+                        if (name.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
                           try {
-                            await Provider.of<AuthProvider>(
-                              context,
-                              listen: false,
-                            ).signUp(
-                              _emailController.text.trim(),
-                              _passwordController.text.trim(),
-                              _nameController.text.trim(),
-                            );
-                            Navigator.pushNamed(context, '/login');
+                            await Provider.of<AuthProvider>(context, listen: false)
+                                .signUp(email, password, name);
+                            Text('Registration successful!',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30,color: Colors.blueAccent),);
                           } catch (e) {
                             setState(() {
-                              _errorMessage = 'Invalid email or password';
+                              _errorMessage = e.toString();
                             });
                           }
                         } else {
                           setState(() {
-                            _errorMessage =
-                                'Please enter email and password and UserName';
+                            _errorMessage = 'Please fill all fields!';
                           });
                         }
                       },
