@@ -134,11 +134,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         final email = _emailController.text.trim();
                         final password = _passwordController.text.trim();
 
-                        if (name.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
+                        if (name.isNotEmpty &&
+                            email.isNotEmpty &&
+                            password.isNotEmpty) {
                           try {
-                            await Provider.of<AuthProvider>(context, listen: false)
-                                .signUp(email, password, name);
-                            Text('Registration successful!',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30,color: Colors.blueAccent),);
+                            await Provider.of<AuthProvider>(
+                              context,
+                              listen: false,
+                            ).signUp(email, password, name);
+                            Text(
+                              'Registration successful!',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30,
+                                color: Colors.blueAccent,
+                              ),
+                            );
+                            Navigator.pushReplacementNamed(context, '/login');
                           } catch (e) {
                             setState(() {
                               _errorMessage = e.toString();

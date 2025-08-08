@@ -13,7 +13,9 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await FirebaseAppCheck.instance.activate(
     androidProvider: AndroidProvider.debug,
+    // androidDebugToken: 'D4ADE873-0E2E-42DC-9E2E-C85C7E1E11B1',
   );
+
   runApp(const MyApp());
 }
 
