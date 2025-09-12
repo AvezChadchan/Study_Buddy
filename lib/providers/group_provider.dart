@@ -25,7 +25,7 @@ class GroupProvider with ChangeNotifier {
     }
   }
 
-  Future<void> _createGroup(String groupName, String? logoUrl) async {
+  Future<void> createGroup(String groupName, String? logoUrl) async {
     final user = _auth.currentUser;
     if (user != null) {
       final groupId = _firestore.collection('groups').doc().id;

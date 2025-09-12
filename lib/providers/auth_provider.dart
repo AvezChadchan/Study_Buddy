@@ -49,7 +49,7 @@ class AuthProvider extends ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
-      throw Exception('Sign-in failed: $e');
+      throw Exception('Sign-in failed:$e');
     }
   }
 
