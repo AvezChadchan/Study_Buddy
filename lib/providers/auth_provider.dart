@@ -17,7 +17,6 @@ class AuthProvider extends ChangeNotifier {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
       User? firebaseUser = userCredential.user;
-      print('Attempting sign-up with $email and $displayName');
       if (firebaseUser != null) {
         _user = UserModel(
           uid: firebaseUser.uid,

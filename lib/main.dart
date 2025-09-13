@@ -9,7 +9,6 @@ import 'package:studybuddy/screens/login_screen.dart';
 import 'package:studybuddy/screens/registration_screen.dart';
 import 'package:studybuddy/providers/auth_provider.dart';
 import 'package:studybuddy/providers/group_provider.dart';
-import 'package:studybuddy/models/group_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studybuddy/providers/group_provider.dart';
 
 class GroupCreationScreen extends StatefulWidget {
+  @override
   State<GroupCreationScreen> createState() => _GroupCreationScreenState();
 }
 
@@ -25,27 +25,48 @@ class _GroupCreationScreenState extends State<GroupCreationScreen> {
     );
     Navigator.pop(context);
   }
-  void dispose(){
+
+  void dispose() {
     _groupNameController.dispose();
     _logoUrlController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Create Group"), centerTitle: true),
-      body: Column(children: [
-        TextField(
-          controller: _groupNameController,
+      appBar: AppBar(
+        title: Text(
+          "Create Group",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        TextField(
-          controller: _logoUrlController,
+        centerTitle: true,
+        backgroundColor: Colors.black,
+      ),
+      body: Container(
+        color: Colors.black,
+        child: Column(
+          children: [
+            TextField(controller: _groupNameController),
+            TextField(controller: _logoUrlController),
+            ElevatedButton(
+              onPressed: _createGroup,
+              child: Text("Create Group"),
+            ),
+          ],
         ),
-        ElevatedButton(
-          onPressed: _createGroup,
-          child: Text("Create Group"),
-        ),
-      ]),
+      ),
+    );
+  }
+
+  Widget customTextField({required textController, required labelText}) {
+    return TextField(
+      controller: textController,
+      decoration: InputDecoration(labelText: labelText),
     );
   }
 }

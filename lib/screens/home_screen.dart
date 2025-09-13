@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:studybuddy/models/user_model.dart';
 import 'package:studybuddy/providers/group_provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,9 +10,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final groupProvider = Provider.of<GroupProvider>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'StudyBuddy',
           style: TextStyle(
             fontSize: 30,
@@ -22,122 +23,119 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         backgroundColor: Colors.black,
+        elevation: 2,
       ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: Colors.black,
-        child: Stack(
+      backgroundColor: Colors.black,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.pushNamed(context, '/creategroup');
+        },
+        label: const Text(
+          'Create Group',
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
+        icon: const Icon(Icons.group_add),
+        backgroundColor: const Color(0xFFA8BEE7FF),
+        foregroundColor: Colors.black,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Positioned(
-              // top: 10,
-              left: 18,
-              child: Text(
-                'Welcome back, User',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 23,
-                  color: Colors.white,
-                ),
+            const Text(
+              'Welcome back, User 👋',
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 22,
+                color: Colors.white,
               ),
             ),
-            Positioned(
-              top: 60,
-              left: 25,
-              child: SizedBox(
-                height: 190,
-                width: 600,
-                child: Consumer<GroupProvider>(
-                  builder: (context, GroupProvider, child) {
-                    final groups = GroupProvider.groups;
-                    if (groups.isEmpty) {
-                      return Padding(
-                        padding: const EdgeInsets.all(50.0),
-                        child: Center(
-                          child: Text(
-                            'No groups yet. Create one!',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white30,
-                            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: Consumer<GroupProvider>(
+                builder: (context, provider, child) {
+                  final groups = provider.groups;
+
+                  if (groups.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'No groups yet. Create one!',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white30,
+                        ),
+                      ),
+                    );
+                  }
+
+                  final crossAxisCount =
+                      MediaQuery.of(context).size.width > 600 ? 3 : 2;
+
+                  return GridView.builder(
+                    padding: const EdgeInsets.all(8),
+                    itemCount: groups.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 0.85,
+                    ),
+                    itemBuilder: (context, index) {
+                      final group = groups[index];
+                      return GestureDetector(
+                        onTap: () {},
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          elevation: 5,
+                          color: Colors.grey[900],
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 40,
+                                backgroundImage:
+                                    group.logoUrl != null
+                                        ? NetworkImage(group.logoUrl!)
+                                        : const AssetImage(
+                                              'assets/default_logo.png',
+                                            )
+                                            as ImageProvider,
+                                child:
+                                    group.logoUrl == null
+                                        ? Text(
+                                          group.groupName.isNotEmpty
+                                              ? group.groupName[0].toUpperCase()
+                                              : "G",
+                                          style: const TextStyle(
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                        : null,
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                group.groupName,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
                           ),
                         ),
                       );
-                    }
-                    return GridView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: groups.length,
-                      itemBuilder: (context, index) {
-                        final group = groups[index];
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: GestureDetector(
-                            onTap: () {}, //for going to group page
-                            child: Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CircleAvatar(
-                                    radius: 50,
-                                    backgroundImage:
-                                        group.logoUrl != null
-                                            ? NetworkImage(group.logoUrl!)
-                                            : AssetImage(
-                                              'assets/default_logo.png',
-                                            ), // as ImageProvider,
-                                    child:
-                                        group.logoUrl == null
-                                            ? Text(
-                                              'G',
-                                              style: TextStyle(fontSize: 40),
-                                            )
-                                            : null,
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    group.groupName,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                      color: Colors.white60,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 1,
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 70,
-              right: 130,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/creategroup');
+                    },
+                  );
                 },
-                child: Text('Create Group',style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFFA8BEE7FF),
-                  foregroundColor: Colors.black,
-                  shadowColor: Colors.white,
-                  elevation: 5,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30,
-                    vertical: 15,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
               ),
             ),
           ],
